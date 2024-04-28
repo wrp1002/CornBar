@@ -15,8 +15,9 @@ else
 	TARGET = iphone:clang:14.2:8.0
 endif
 
-SDKVERSION = 16.5
+include $(THEOS)/makefiles/common.mk
 
+SDKVERSION = 16.5
 TWEAK_NAME = CornBar
 
 $(TWEAK_NAME)_FILES = Tweak.xm Debug.x
@@ -24,6 +25,6 @@ $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 $(TWEAK_NAME)_LIBRARIES = substrate
 $(TWEAK_NAME)_EXTRA_FRAMEWORKS += MaterialKit
 
-include $(THEOS)/makefiles/common.mk
+
 include $(THEOS_MAKE_PATH)/tweak.mk
 
