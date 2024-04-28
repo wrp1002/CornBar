@@ -1,13 +1,12 @@
 
 @interface MTPillView : UIView
-@property (retain) UIImageView *cornView;
+@property (strong) UIImageView *cornView;
 -(id)initWithFrame:(CGRect)arg1 settings:(id)arg2 ;
 -(id)initWithFrame:(CGRect)arg1 ;
 -(id)init;
 @end
 
 @interface MTLumaDodgePillView : MTPillView
-@property (retain) UIImageView *cornView;
 +(void)initialize;
 +(Class)layerClass;
 +(CGSize)suggestedSizeForContentWidth:(double)arg1 withSettings:(id)arg2 ;
@@ -36,8 +35,6 @@
 
 
 @interface MTStaticColorPillView : MTPillView
-@property (retain) UIImageView *cornView;
-@property (nonatomic, retain) UIColor *pillColor;
 - (id)backgroundColor:(id)arg1;
 - (id)initWithFrame:(CGRect)arg1 settings:(id)arg2;
 - (id)pillColor;
