@@ -1,9 +1,9 @@
-Package: com.yourcompany.cornbar
+Package: com.wrp1002.cornbar
 Name: CornBar
-Version: 0.0.1
+Version: 1..0.0
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
-Maintainer: Wes
-Author: Wes
+Description: Make your homebar corn!
+Maintainer: Wes <wes.hamster@gmail.com>
+Author: Wes <wes.hamster@gmail.com>
 Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.5000)
+Depends: mobilesubstrate (>= 0.9.5000), preferenceloader
