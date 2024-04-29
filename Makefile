@@ -20,10 +20,8 @@ include $(THEOS)/makefiles/common.mk
 SDKVERSION = 16.5
 TWEAK_NAME = CornBar
 
-$(TWEAK_NAME)_FILES = Tweak.xm Debug.x
+$(TWEAK_NAME)_FILES = Tweak.xm #Debug.x
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
-$(TWEAK_NAME)_LIBRARIES = substrate
-$(TWEAK_NAME)_EXTRA_FRAMEWORKS += MaterialKit
 
 
 include $(THEOS_MAKE_PATH)/tweak.mk
