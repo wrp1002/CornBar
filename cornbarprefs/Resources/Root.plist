@@ -86,28 +86,53 @@
 			<key>label</key>
 			<string>Vertical Offset</string>
 		</dict>
-
 		<dict>
 			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>key</key>
 			<string>kOffset</string>
 			<key>min</key>
-			<string>-16</string>
+			<integer>0</integer>
 			<key>max</key>
-			<integer>16</integer>
+			<integer>32</integer>
 			<key>showValue</key>
 			<true/>
 			<key>isSegmented</key>
 			<false/>
 			<key>default</key>
-			<integer>0</integer>
+			<integer>8</integer>
 			<key>defaults</key>
 			<string>com.wrp1002.cornbar</string>
 			<key>PostNotification</key>
 			<string>com.wrp1002.cornbar/ReloadPrefs</string>
 		</dict>
 
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Scale</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>key</key>
+			<string>kScale</string>
+			<key>min</key>
+			<integer>0</integer>
+			<key>max</key>
+			<integer>3</integer>
+			<key>showValue</key>
+			<true/>
+			<key>isSegmented</key>
+			<false/>
+			<key>default</key>
+			<integer>1</integer>
+			<key>defaults</key>
+			<string>com.wrp1002.cornbar</string>
+			<key>PostNotification</key>
+			<string>com.wrp1002.cornbar/ReloadPrefs</string>
+		</dict>
 
 		<dict>
 			<key>cell</key>
