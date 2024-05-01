@@ -56,6 +56,7 @@ UIImage *GetCornImage() {
 
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:GetCornImage()];
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
+		imageView.frame = CGRectMake(0, 0, cornBarWidth, cornBarHeight);
 
 		[origObj addSubview:imageView];
 		origObj.cornView = imageView;
@@ -76,6 +77,7 @@ UIImage *GetCornImage() {
 
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:GetCornImage()];
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
+		imageView.frame = CGRectMake(0, 0, cornBarWidth, cornBarHeight);
 
 		[origObj addSubview:imageView];
 		origObj.cornView = imageView;
@@ -106,6 +108,7 @@ UIImage *GetCornImage() {
 
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:GetCornImage()];
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
+		imageView.frame = CGRectMake(0, 0, cornBarWidth, cornBarHeight);
 
 		[origObj addSubview:imageView];
 		origObj.cornView = imageView;
