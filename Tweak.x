@@ -76,44 +76,53 @@ UIImage *GetCornImage() {
 	%hook MTLumaDodgePillView
 		%property (strong) UIImageView *cornView;
 
-		-(id)initWithFrame:(CGRect)arg1 settings:(id)arg2 graphicsQuality:(long long)arg3 {
-			//[Debug Log:@"MTLumaDodgePillView initWithFrame:(CGRect)arg1 settings:(id)arg2 graphicsQuality:(long long)arg3"];
-			//[Debug Log:[NSString stringWithFormat:@"arg1 x: %f  y: %f  width: %f  height: %f", arg1.origin.x, arg1.origin.y, arg1.size.width, arg1.size.height]];
-
-			MTLumaDodgePillView *origObj =  %orig;
-
+		%new
+		-(void)initCorn {
 			UIImageView *imageView = [[UIImageView alloc] initWithImage:GetCornImage()];
 			imageView.alpha = opacity;
 			imageView.contentMode = UIViewContentModeScaleAspectFit;
 			imageView.frame = CGRectMake(0, 0, cornBarWidth, cornBarHeight);
 
-			[origObj addSubview:imageView];
-			origObj.cornView = imageView;
-			//origObj.transform = CGAffineTransformMakeScale(scale, scale);
-
-			return origObj;
-
+			[self addSubview:imageView];
+			self.cornView = imageView;
 		}
 
-		-(void)setStyle:(long long)arg1 {
-			//[Debug Log:@"MTLumaDodgePillView setStyle"];
-			%orig(40); // 40 for some reason makes it invisible
-			//%orig;
+		-(id)init {
+			MTLumaDodgePillView *origObj =  %orig;
+			[origObj initCorn];
+			return origObj;
+		}
+
+		-(id)initWithFrame:(CGRect)arg1 settings:(id)arg2 graphicsQuality:(long long)arg3 {
+			//[Debug Log:@"MTLumaDodgePillView initWithFrame:(CGRect)arg1 settings:(id)arg2 graphicsQuality:(long long)arg3"];
+			//[Debug Log:[NSString stringWithFormat:@"arg1 x: %f  y: %f  width: %f  height: %f", arg1.origin.x, arg1.origin.y, arg1.size.width, arg1.size.height]];
+			MTLumaDodgePillView *origObj =  %orig;
+			[origObj initCorn];
+			return origObj;
 		}
 
 		-(id)initWithFrame:(CGRect)arg1 settings:(id)arg2 {
 			//[Debug Log:@"MTLumaDodgePillView initWithFrame:(CGRect)arg1 settings:(id)arg2"];
 			MTLumaDodgePillView *origObj = %orig;
-
-			UIImageView *imageView = [[UIImageView alloc] initWithImage:GetCornImage()];
-			imageView.alpha = opacity;
-			imageView.contentMode = UIViewContentModeScaleAspectFit;
-			imageView.frame = CGRectMake(0, 0, cornBarWidth, cornBarHeight);
-
-			[origObj addSubview:imageView];
-			origObj.cornView = imageView;
-
+			[origObj initCorn];
 			return origObj;
+		}
+
+		-(id)initWithFrame:(CGRect)arg1 {
+			MTLumaDodgePillView *origObj = %orig;
+			[origObj initCorn];
+			return origObj;
+		}
+
+		-(id)initWithCoder:(id)arg1 {
+			MTLumaDodgePillView *origObj = %orig;
+			[origObj initCorn];
+			return origObj;
+		}
+
+		-(void)setStyle:(long long)arg1 {
+			//[Debug Log:@"MTLumaDodgePillView setStyle"];
+			%orig(40); // 40 for some reason makes it invisible
 		}
 
 		-(void)layoutSubviews {
@@ -131,20 +140,35 @@ UIImage *GetCornImage() {
 	%hook MTStaticColorPillView
 		%property (strong) UIImageView *cornView;
 
-		-(id)initWithFrame:(CGRect)arg1 settings:(id)arg2 {
-			//[Debug Log:@"MTStaticColorPillView initWithFrame:(CGRect)arg1 settings:(id)arg2 graphicsQuality:(long long)arg3"];
-
-			MTStaticColorPillView *origObj =  %orig;
-
+		%new
+		- (void)initCorn {
 			UIImageView *imageView = [[UIImageView alloc] initWithImage:GetCornImage()];
 			imageView.alpha = opacity;
 			imageView.contentMode = UIViewContentModeScaleAspectFit;
 			imageView.frame = CGRectMake(0, 0, cornBarWidth, cornBarHeight);
 
-			[origObj addSubview:imageView];
-			origObj.cornView = imageView;
+			[self addSubview:imageView];
+			self.cornView = imageView;
+		}
 
+		-(id)init {
+			MTStaticColorPillView *origObj =  %orig;
+			[origObj initCorn];
 			return origObj;
+		}
+
+		-(id)initWithFrame:(CGRect)arg1 settings:(id)arg2 {
+			//[Debug Log:@"MTStaticColorPillView initWithFrame:(CGRect)arg1 settings:(id)arg2 graphicsQuality:(long long)arg3"];
+			MTStaticColorPillView *origObj =  %orig;
+			[origObj initCorn];
+			return origObj;
+		}
+
+		-(id)initWithFrame:(CGRect)arg1 {
+			MTStaticColorPillView *origObj =  %orig;
+			[origObj initCorn];
+			return origObj;
+
 		}
 
 		-(void)setPillColor:(id)arg1 {

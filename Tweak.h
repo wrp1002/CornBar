@@ -11,6 +11,7 @@
 +(Class)layerClass;
 +(CGSize)suggestedSizeForContentWidth:(double)arg1 withSettings:(id)arg2 ;
 +(BOOL)supportsBackgroundLuminanceObserving;
+-(void)initCorn;
 -(void)bounce;
 -(void)layoutSubviews;
 -(long long)style;
@@ -35,6 +36,7 @@
 
 
 @interface MTStaticColorPillView : MTPillView
+- (void)initCorn;
 - (id)backgroundColor:(id)arg1;
 - (id)initWithFrame:(CGRect)arg1 settings:(id)arg2;
 - (id)pillColor;
