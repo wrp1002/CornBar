@@ -8,6 +8,7 @@
 // ====================== Preferences ======================
 
 bool enabled;
+bool convertGrayscale;
 NSString *cornFilename;
 float opacity;
 float offset;
@@ -20,6 +21,33 @@ NSInteger cornBarHeight = 0;
 UIImage *cornImage = nil;
 
 
+UIImage *convertImageToGrayScale(UIImage *image) {
+    // Create a grayscale color space
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+
+    // Create bitmap context to draw the grayscale image with alpha
+    CGContextRef context = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+
+    // Draw the image into the context, converting it to grayscale with alpha
+    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), [image CGImage]);
+
+    // Create a grayscale image with alpha
+    CGImageRef grayscaleImage = CGBitmapContextCreateImage(context);
+
+    // Cleanup
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+
+    // Convert CGImage to UIImage
+    UIImage *grayImage = [UIImage imageWithCGImage:grayscaleImage];
+
+    // Cleanup
+    CGImageRelease(grayscaleImage);
+
+    return grayImage;
+}
+
+
 // Loading the image in %ctor caused safemode and
 // loading it after springboard is done is too late,
 // so just check if it has been loaded before and return it if so
@@ -28,6 +56,9 @@ UIImage *GetCornImage() {
 		NSString *imagePath = [NSString stringWithFormat:@"/Library/CornBar/%@", cornFilename];
 		imagePath = ROOT_PATH_NS(imagePath);
 		cornImage = [UIImage imageWithContentsOfFile:imagePath];
+
+		if (convertGrayscale)
+			cornImage = convertImageToGrayScale(cornImage);
 
 		cornBarWidth = (int)cornImage.size.width / 4 * scale;
 		cornBarHeight = (int)cornImage.size.height / 4 * scale;
@@ -203,6 +234,7 @@ UIImage *GetCornImage() {
 
 	NSDictionary *defaultPrefs = @{
 		@"kEnabled": @YES,
+		@"kGrayscale": @NO,
 		@"kCornFilename": @"cornbar_medium.png",
 		@"kOpacity": @1.0f,
 		@"kOffset": @8.0,
@@ -214,6 +246,7 @@ UIImage *GetCornImage() {
 
 
 	enabled = [prefs boolForKey:@"kEnabled"];
+	convertGrayscale = [prefs boolForKey:@"kGrayscale"];
 	cornFilename = [prefs stringForKey:@"kCornFilename"];
 	opacity = [prefs floatForKey:@"kOpacity"];
 	offset = [prefs floatForKey:@"kOffset"];
