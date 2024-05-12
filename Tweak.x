@@ -2,15 +2,17 @@
 #import <objc/runtime.h>
 #import <rootless.h>
 #import "Tweak.h"
+#import "libcolorpicker.h"
 //#import "Debug.h"
 
 
 // ====================== Preferences ======================
 
 bool enabled;
-bool convertGrayscale;
 bool customImageEnabled;
+bool tintEnabled;
 NSString *cornFilename;
+NSString *tintColorStr;
 float opacity;
 float offset;
 float scale;
@@ -22,31 +24,35 @@ NSInteger cornBarHeight = 0;
 UIImage *cornImage = nil;
 
 
-UIImage *convertImageToGrayScale(UIImage *image) {
-    // Create a grayscale color space
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+UIImage *tintImage(UIImage *image, UIColor *color) {
+    // Create a graphics context
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
 
-    // Create bitmap context to draw the grayscale image with alpha
-    CGContextRef context = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+    // Flip the coordinate system
+    CGContextTranslateCTM(context, 0, image.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
 
-    // Draw the image into the context, converting it to grayscale with alpha
-    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), [image CGImage]);
+    // Draw the original image
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
 
-    // Create a grayscale image with alpha
-    CGImageRef grayscaleImage = CGBitmapContextCreateImage(context);
+    // Apply the tint color to non-transparent pixels
+    CGContextSetBlendMode(context, kCGBlendModeColor);
+    CGContextClipToMask(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
+    [color setFill];
+    CGContextFillRect(context, CGRectMake(0, 0, image.size.width, image.size.height));
+
+    // Get the tinted image
+    UIImage *tintedImage = UIGraphicsGetImageFromCurrentImageContext();
 
     // Cleanup
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
+    UIGraphicsEndImageContext();
 
-    // Convert CGImage to UIImage
-    UIImage *grayImage = [UIImage imageWithCGImage:grayscaleImage];
-
-    // Cleanup
-    CGImageRelease(grayscaleImage);
-
-    return grayImage;
+    return tintedImage;
 }
+
+
 
 
 // Loading the image in %ctor caused safemode and
@@ -69,8 +75,10 @@ UIImage *GetCornImage() {
 			cornImage = [UIImage imageWithContentsOfFile:imagePath];
 		}
 
-		if (convertGrayscale)
-			cornImage = convertImageToGrayScale(cornImage);
+		if (tintEnabled) {
+			UIColor *tintColor = LCPParseColorString(tintColorStr, @"#ffffff");
+			cornImage = tintImage(cornImage, tintColor);
+		}
 
 		cornBarWidth = (int)cornImage.size.width / 4 * scale;
 		cornBarHeight = (int)cornImage.size.height / 4 * scale;
@@ -250,9 +258,10 @@ UIImage *GetCornImage() {
 
 	NSDictionary *defaultPrefs = @{
 		@"kEnabled": @YES,
-		@"kGrayscale": @NO,
 		@"kCustomImageEnabled": @NO,
+		@"kTintEnabled": @NO,
 		@"kCornFilename": @"cornbar_medium.png",
+		@"kTintColor": @"#FFFFFF",
 		@"kOpacity": @1.0f,
 		@"kOffset": @8.0,
 		@"kScale": @1.0,
@@ -264,8 +273,9 @@ UIImage *GetCornImage() {
 
 	enabled = [prefs boolForKey:@"kEnabled"];
 	customImageEnabled = [prefs boolForKey:@"kCustomImageEnabled"];
-	convertGrayscale = [prefs boolForKey:@"kGrayscale"];
+	tintEnabled = [prefs boolForKey:@"kTintEnabled"];
 	cornFilename = [prefs stringForKey:@"kCornFilename"];
+	tintColorStr = [prefs stringForKey:@"kTintColor"];
 	opacity = [prefs floatForKey:@"kOpacity"];
 	offset = [prefs floatForKey:@"kOffset"];
 	scale = [prefs floatForKey:@"kScale"];

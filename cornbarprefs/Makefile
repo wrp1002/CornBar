@@ -16,6 +16,7 @@ BUNDLE_NAME = CornBarPrefs
 $(BUNDLE_NAME)_FILES = CBRRootListController.m
 $(BUNDLE_NAME)_FRAMEWORKS = UIKit
 $(BUNDLE_NAME)_PRIVATE_FRAMEWORKS = Preferences
+$(BUNDLE_NAME)_LIBRARIES = colorpicker
 $(BUNDLE_NAME)_INSTALL_PATH = /Library/PreferenceBundles
 $(BUNDLE_NAME)_CFLAGS = -fobjc-arc
 

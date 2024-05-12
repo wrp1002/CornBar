@@ -6,4 +6,4 @@ Description: Change your HomeBar into corn!
 Maintainer: Wes <wes.hamster@gmail.com>
 Author: Wes <wes.hamster@gmail.com>
 Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.5000), preferenceloader
+Depends: mobilesubstrate (>= 0.9.5000), preferenceloader, ws.hbang.alderis (>= 1.2)

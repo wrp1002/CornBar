@@ -21,6 +21,7 @@ SDKVERSION = 16.5
 TWEAK_NAME = CornBar
 
 $(TWEAK_NAME)_FILES = Tweak.x #Debug.x
+$(TWEAK_NAME)_LIBRARIES = colorpicker
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 
 
