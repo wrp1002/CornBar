@@ -1,6 +1,6 @@
 Package: com.wrp1002.cornbar
 Name: CornBar
-Version: 1.0.0
+Version: 1.1.0
 Architecture: iphoneos-arm
 Description: Change your HomeBar into corn!
 Maintainer: Wes <wes.hamster@gmail.com>
