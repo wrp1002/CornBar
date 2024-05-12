@@ -7,6 +7,6 @@
 #define BUNDLE [NSString stringWithFormat:@"com.wrp1002.%@", [TWEAK_NAME lowercaseString]]
 #define BUNDLE_NOTIFY (CFStringRef)[NSString stringWithFormat:@"%@/ReloadPrefs", BUNDLE]
 
-@interface CBRRootListController : PSListController
+@interface CBRRootListController : PSListController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end

@@ -11,6 +11,27 @@
 	return _specifiers;
 }
 
+- (void)chooseCustomImage {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    NSData *imageData = UIImagePNGRepresentation(image);
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:@"cornbar_custom.png"];
+
+    [imageData writeToFile:imagePath atomically:YES];
+
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 -(void)OpenGithub {
 	UIApplication *application = [UIApplication sharedApplication];
 	NSURL *URL = [NSURL URLWithString:@"https://github.com/wrp1002/CornBar"];

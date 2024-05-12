@@ -72,6 +72,37 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>Custom image</string>
+			<key>footerText</key>
+			<string>For reference, medium corn size is 512x68. File will be saved to your documents directory as cornbar_custom.png. Make sure your image has a transparent background</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>label</key>
+			<string>Enable Custom Image</string>
+			<key>key</key>
+			<string>kCustomImageEnabled</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.wrp1002.cornbar</string>
+			<key>PostNotification</key>
+			<string>com.wrp1002.cornbar/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>action</key>
+			<string>chooseCustomImage</string>
+			<key>label</key>
+			<string>Choose Custom Image</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>CornBar Opacity</string>
 		</dict>
 

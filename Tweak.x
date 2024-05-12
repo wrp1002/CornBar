@@ -9,6 +9,7 @@
 
 bool enabled;
 bool convertGrayscale;
+bool customImageEnabled;
 NSString *cornFilename;
 float opacity;
 float offset;
@@ -53,15 +54,30 @@ UIImage *convertImageToGrayScale(UIImage *image) {
 // so just check if it has been loaded before and return it if so
 UIImage *GetCornImage() {
 	if (cornImage == nil) {
-		NSString *imagePath = [NSString stringWithFormat:@"/Library/CornBar/%@", cornFilename];
-		imagePath = ROOT_PATH_NS(imagePath);
-		cornImage = [UIImage imageWithContentsOfFile:imagePath];
+		NSString *imagePath;
+		if (customImageEnabled) {
+			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+			NSString *documentsDirectory = [paths objectAtIndex:0];
+			imagePath = [documentsDirectory stringByAppendingPathComponent:@"cornbar_custom.png"];
+			cornImage = [UIImage imageWithContentsOfFile:imagePath];
+		}
+
+		// If custom image failed to load, fall back to built in image
+		if (!cornImage) {
+			imagePath = [NSString stringWithFormat:@"/Library/CornBar/%@", cornFilename];
+			imagePath = ROOT_PATH_NS(imagePath);
+			cornImage = [UIImage imageWithContentsOfFile:imagePath];
+		}
 
 		if (convertGrayscale)
 			cornImage = convertImageToGrayScale(cornImage);
 
 		cornBarWidth = (int)cornImage.size.width / 4 * scale;
 		cornBarHeight = (int)cornImage.size.height / 4 * scale;
+
+		// Safety check in case a custom image is way too big
+		if (cornBarHeight > 100)
+			cornBarHeight = 100;
 
 		//[Debug Log: [NSString stringWithFormat:@"corn width: %f  height: %f", cornImage.size.width, cornImage.size.height]];
 	}
@@ -235,6 +251,7 @@ UIImage *GetCornImage() {
 	NSDictionary *defaultPrefs = @{
 		@"kEnabled": @YES,
 		@"kGrayscale": @NO,
+		@"kCustomImageEnabled": @NO,
 		@"kCornFilename": @"cornbar_medium.png",
 		@"kOpacity": @1.0f,
 		@"kOffset": @8.0,
@@ -246,6 +263,7 @@ UIImage *GetCornImage() {
 
 
 	enabled = [prefs boolForKey:@"kEnabled"];
+	customImageEnabled = [prefs boolForKey:@"kCustomImageEnabled"];
 	convertGrayscale = [prefs boolForKey:@"kGrayscale"];
 	cornFilename = [prefs stringForKey:@"kCornFilename"];
 	opacity = [prefs floatForKey:@"kOpacity"];
